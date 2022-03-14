@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+
+.container{
+  max-width: 300px;
+  overflow: auto;
+  min-height: 300px;
+  border: 1px solid black;
+  padding: 50px;
+  border-radius: 5px;
+  margin-top: 50px;
+  margin-right: auto;
+  margin-left: auto;
+  background-color: white;
+}
+
+body{
+  background-image: linear-gradient(to bottom right, #A7C7E7, #FAC898);
+  height: 100%;
+  width:100%;
+  background-attachment: fixed;
+}
+
+.gradeTableFlex{
+  display: flex;
+  flex-direction: column;
+}
+
+.title{
+  margin-top: 50px;
+  text-align: center;
+  font-size: 40px;
+  font-family: 'Oswald', sans-serif;
+}
+
+.howToButton{
+  text-align: center;
+  margin-top: 2.5px;
+}
+
+.bold{
+  font-weight: bold;
+}
+
+.addButton{
+  text-align: center;
+  margin-top: 25px;
+  margin-right: 10px;
+  flex-direction: row;
+}
+
+.submitButton{
+  size: 50px;
+  margin-top: 200px;
+  text-align: center;
+}
