@@ -14,6 +14,7 @@ export const GradeTable = () => {
 
   const[finalGrade, showFinalGrade] = useState(false);
   const[calculatedGrade, helpCalculateGrade] = useState(0);
+  const[weight, helpCalculateWeight] = useState(0);
 
   function addCategory(){
     setCategories([...categories, {id: uuidv4(), ygrade: '', tgrade: '', weight: ''}])
@@ -45,6 +46,7 @@ export const GradeTable = () => {
   }
 
   localStorage.setItem('grade', '0');
+  localStorage.setItem('weight', '0')
 
   const calculateGrade = () => {
     showFinalGrade(true);
@@ -54,8 +56,19 @@ export const GradeTable = () => {
       const updatedGrade = parseFloat(currentGrade) + parseFloat(gradeForCategory);
       localStorage.setItem('grade', updatedGrade);
       helpCalculateGrade(localStorage.getItem('grade'));
+
+      const weightForCategory = category.weight;
+      const currentWeight = localStorage.getItem('weight');
+      const updatedWeight = parseFloat(currentWeight) + parseFloat(weightForCategory);
+      localStorage.setItem('weight', updatedWeight);
+      helpCalculateWeight(localStorage.getItem('weight'));
+
       return updatedGrade;
     })
+
+    if(weight !== 100){
+      alert('WARNING: Your categories do not add up to 100%');
+    }
   }
 
 
@@ -104,7 +117,7 @@ export const GradeTable = () => {
       </div>
       <Modal show={finalGrade} onHide = {closeGrade} centered>
             <Modal.Body>
-              Your Final Grade Is: {calculatedGrade}
+              Your Final Grade Is: {calculatedGrade}%
             </Modal.Body>
       </Modal>
     </>
