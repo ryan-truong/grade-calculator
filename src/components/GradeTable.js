@@ -4,13 +4,16 @@ import HowTo from './HowTo'
 import Typewriter from 'typewriter-effect'
 import {useState} from 'react'
 import Button from 'react-bootstrap/Button'
-import Category from './Category'
 import {v4 as uuidv4} from 'uuid'
+import Modal from 'react-bootstrap/Modal'
 
 export const GradeTable = () => {
 
   //Add categories
   const[categories, setCategories] = useState([{id: uuidv4(), ygrade: '', tgrade: '', weight: ''}]);
+
+  const[finalGrade, showFinalGrade] = useState(false);
+  const[calculatedGrade, helpCalculateGrade] = useState(0);
 
   function addCategory(){
     setCategories([...categories, {id: uuidv4(), ygrade: '', tgrade: '', weight: ''}])
@@ -40,6 +43,26 @@ export const GradeTable = () => {
     })
     setCategories([...categories])
   }
+
+  localStorage.setItem('grade', '0');
+
+  const calculateGrade = () => {
+    showFinalGrade(true);
+    categories.map((category) => {
+      const gradeForCategory = parseFloat(category.ygrade)/parseFloat(category.tgrade) * parseFloat(category.weight);
+      const currentGrade = localStorage.getItem('grade');
+      const updatedGrade = parseFloat(currentGrade) + parseFloat(gradeForCategory);
+      localStorage.setItem('grade', updatedGrade);
+      helpCalculateGrade(localStorage.getItem('grade'));
+      return updatedGrade;
+    })
+  }
+
+
+  const closeGrade = () => {
+    showFinalGrade(false);
+  }
+
   return (
     <>
     <div className = 'title'>
@@ -50,7 +73,7 @@ export const GradeTable = () => {
       />
       </div>
       <div className = 'howToButton'>
-      <HowTo></HowTo>
+        <HowTo></HowTo>
       </div>
       <div className = 'container'>
         <div className = 'gradeTableFlex'>
@@ -71,7 +94,7 @@ export const GradeTable = () => {
             }
           </Form>
           <div className = 'submitButton'>
-            <Button variant = 'primary' size = 'lg'>Calculate</Button>
+            <Button variant = 'primary' size = 'lg' onClick={calculateGrade}>Calculate</Button>
           </div>
           <div className = 'addButton'>
             <Button variant = 'success' size = 'sm' onClick={addCategory}>+</Button>
@@ -79,6 +102,11 @@ export const GradeTable = () => {
           </div>
         </div>
       </div>
+      <Modal show={finalGrade} onHide = {closeGrade} centered>
+            <Modal.Body>
+              Your Final Grade Is: {calculatedGrade}
+            </Modal.Body>
+      </Modal>
     </>
   )
 }
